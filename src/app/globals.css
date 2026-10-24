@@ -1,26 +1,295 @@
 @import "tailwindcss";
+@import "./spacing.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-purple: #6a3a9f;
+  --color-lime: #c4ec69;
+  --color-cream: #f3ebe3;
+  --color-teal: #26606e;
+  --color-pink: #f74b92;
+  --color-plum: #2f1752;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-poppins), system-ui, sans-serif;
+  --font-body: var(--font-outfit), system-ui, sans-serif;
+  --font-script: var(--font-kaushan), cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-pink);
+  outline-offset: 3px;
+}
+
+/* ---------- paper grain (torn pieces + footer) ---------- */
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- 3D hero scene ---------- */
+.scene-stage {
+  perspective: 1400px;
+  container-type: inline-size;
+}
+.scene {
+  --rx: 6deg;
+  --ry: -10deg;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.25s ease-out;
+}
+.layer {
+  position: absolute;
+  transform: translateZ(var(--z, 0px)) rotate(var(--r, 0deg));
+  animation: assemble 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+@keyframes assemble {
+  from {
+    opacity: 0;
+    transform: translateZ(calc(var(--z, 0px) - 500px)) rotate(var(--r, 0deg));
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(var(--z, 0px)) rotate(var(--r, 0deg));
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------- pressable 3D buttons ---------- */
+.btn-3d {
+  --edge: var(--color-purple);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--edge);
+  border-radius: 9999px;
+  box-shadow: 0 6px 0 var(--edge);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn-3d:hover {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 var(--edge);
+}
+.btn-3d:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 var(--edge);
+}
+.btn-3d--sm {
+  box-shadow: 0 4px 0 var(--edge);
+}
+.btn-3d--sm:hover {
+  box-shadow: 0 2px 0 var(--edge);
+}
+.btn-3d--sm:active {
+  box-shadow: 0 0 0 var(--edge);
+  transform: translateY(4px);
+}
+.footer .btn-3d {
+  --edge: var(--color-plum);
+}
+
+/* ---------- navbar depth ---------- */
+.nav-pill {
+  box-shadow: 0 5px 0 var(--color-purple);
+}
+.nav-mobile {
+  box-shadow: 0 5px 0 var(--color-purple);
+}
+
+/* ---------- footer torn top edge ---------- */
+.footer {
+  clip-path: polygon(0 18px, 3% 6px, 7% 16px, 12% 4px, 17% 14px, 23% 2px, 29% 15px, 35% 5px, 41% 17px, 47% 3px, 53% 14px, 59% 6px, 65% 18px, 71% 4px, 77% 15px, 83% 7px, 89% 17px, 94% 5px, 100% 14px, 100% 100%, 0 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .layer { animation: none; }
+  .scene, .btn-3d { transition: none; }
+}
+
+/* ---------- torn section edges ---------- */
+.torn-top {
+  clip-path: polygon(0 16px, 4% 5px, 9% 14px, 15% 3px, 21% 13px, 28% 4px, 34% 15px, 41% 6px, 48% 14px, 55% 3px, 62% 15px, 69% 5px, 76% 13px, 83% 4px, 90% 14px, 95% 6px, 100% 12px, 100% 100%, 0 100%);
+}
+.torn-both {
+  clip-path: polygon(0 16px, 4% 5px, 9% 14px, 15% 3px, 21% 13px, 28% 4px, 34% 15px, 41% 6px, 48% 14px, 55% 3px, 62% 15px, 69% 5px, 76% 13px, 83% 4px, 90% 14px, 95% 6px, 100% 12px, 100% calc(100% - 12px), 94% calc(100% - 4px), 88% calc(100% - 15px), 80% calc(100% - 5px), 72% calc(100% - 14px), 64% calc(100% - 3px), 56% calc(100% - 13px), 47% calc(100% - 5px), 39% calc(100% - 15px), 31% calc(100% - 4px), 23% calc(100% - 14px), 15% calc(100% - 6px), 8% calc(100% - 13px), 0 calc(100% - 4px));
+}
+
+/* ---------- about: hover-tilt paper board ---------- */
+.board-stage {
+  perspective: 1200px;
+}
+.board {
+  transform-style: preserve-3d;
+  transform: rotateX(8deg) rotateY(-12deg);
+  transition: transform 0.4s ease-out;
+}
+.board-stage:hover .board {
+  transform: rotateX(2deg) rotateY(-3deg);
+}
+
+/* ---------- service cards ---------- */
+.service-card {
+  transform: rotate(var(--tilt, 0deg));
+  box-shadow: 0 8px 0 var(--color-plum);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.service-card:hover {
+  transform: rotate(0deg) translateY(3px);
+  box-shadow: 0 5px 0 var(--color-plum);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .board, .service-card { transition: none; }
+}
+
+/* ---------- projects overlay: folder stack ---------- */
+.projects-overlay {
+  overscroll-behavior: contain;
+}
+.projects-overlay .btn-3d,
+.tunnel-ui .btn-3d {
+  --edge: var(--color-plum);
+}
+.projects-overlay:focus {
+  outline: none;
+}
+
+.folder,
+.cover {
+  --tab-h: 60px;
+}
+.folder-stack,
+.folder-wrap {
+  position: relative;
+}
+.folder {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 190px;
+  text-align: left;
+  color: var(--ink);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.folder:hover {
+  transform: translateY(-10px);
+}
+.folder-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--tab-h) - 1px);
+  bottom: 0;
+  background: var(--paper);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -8px 18px rgba(47, 23, 82, 0.3);
+}
+.folder-tab {
+  position: absolute;
+  top: 0;
+  left: max(var(--tab-x), 28px);
+  width: min(46%, 380px);
+  height: var(--tab-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 22px 22px 0 0;
+}
+.folder-tab::before,
+.folder-tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+.folder-tab::before {
+  right: 100%;
+  background: radial-gradient(circle at 0 0, transparent 21px, var(--paper) 22px);
+}
+.folder-tab::after {
+  left: 100%;
+  background: radial-gradient(circle at 100% 0, transparent 21px, var(--paper) 22px);
+}
+.folder-meta {
+  position: absolute;
+  top: calc(var(--tab-h) + 16px);
+  color: var(--ink);
+  opacity: 0.85;
+}
+.folder-meta--left {
+  left: 28px;
+}
+.folder-meta--right {
+  right: 28px;
+}
+.folder-clip {
+  position: absolute;
+  right: 8%;
+  top: calc(var(--tab-h) - 14px);
+  width: 26px;
+  color: var(--color-plum);
+  opacity: 0.7;
+  transform: rotate(12deg);
+}
+
+/* ---------- opened folder ---------- */
+.folder-stage {
+  perspective: 2200px;
+}
+.folder-open {
+  --tab-h: 60px;
+  width: 100%;
+  max-width: 1100px;
+}
+.inside {
+  box-shadow: 0 24px 50px rgba(47, 23, 82, 0.4);
+}
+.inside-clip {
+  top: -14px;
+  right: 40px;
+  width: 30px;
+  transform: rotate(8deg);
+}
+.cover {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% var(--tab-h);
+  pointer-events: none;
+  color: var(--ink);
+}
+.cover-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.cover-back {
+  transform: rotateX(180deg);
+  filter: brightness(0.9);
+}
+.cover .folder-body {
+  box-shadow: none;
+  border-radius: 22px 22px 24px 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder { transition: none; }
 }
