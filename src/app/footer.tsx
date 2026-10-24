@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   motion,
   AnimatePresence,
@@ -55,7 +55,12 @@ const QUICK_LINKS = [
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
+  const [currentYear, setCurrentYear] = useState(2026);
   const email = "hello@rahmapsd.com";
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   // حركة 3D Tilt لكارت الـ CTA الكبير مع الماوس
   const mouseX = useMotionValue(0);
@@ -398,7 +403,7 @@ export default function Footer() {
               style={{ color: COLORS.lime }}
               className="mb-1 font-mono text-xs font-black tracking-widest uppercase"
             >
-              // Navigation
+            
             </h3>
             {QUICK_LINKS.map((link) => (
               <a
@@ -424,7 +429,6 @@ export default function Footer() {
               style={{ color: COLORS.lime }}
               className="mb-1 font-mono text-xs font-black tracking-widest uppercase"
             >
-              // Social Stickers
             </h3>
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
               {SOCIAL_LINKS.map((social) => (
@@ -471,7 +475,7 @@ export default function Footer() {
             style={{ color: COLORS.cream }}
             className="font-mono text-xs opacity-80"
           >
-            © {new Date().getFullYear()} RAHMA.PSD — ALL RIGHTS RESERVED.
+            © {currentYear} RAHMA.PSD — ALL RIGHTS RESERVED.
           </p>
 
           {/* زرار الصعود لأعلى الصفحة */}
