@@ -56,9 +56,9 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom flex flex-wrap items-center justify-between gap-4">
-          <p className="text-sm text-cream/85">
-            &copy; {new Date().getFullYear()} {site.handle}. All rights reserved.
-          </p>
+<p className="font-mono text-xs opacity-80">
+  © 2026 RAHMA.PSD — ALL RIGHTS RESERVED.
+</p>         
           <a href="#top" className="btn-3d btn-3d--sm bg-lime font-display text-sm font-bold text-purple">
             Back to top
           </a>
