@@ -403,7 +403,6 @@ export default function Footer() {
               style={{ color: COLORS.lime }}
               className="mb-1 font-mono text-xs font-black tracking-widest uppercase"
             >
-            
             </h3>
             {QUICK_LINKS.map((link) => (
               <a
