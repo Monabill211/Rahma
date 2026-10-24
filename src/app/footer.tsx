@@ -55,12 +55,9 @@ const QUICK_LINKS = [
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
-  const [currentYear, setCurrentYear] = useState(2026);
   const email = "hello@rahmapsd.com";
 
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+
 
   // حركة 3D Tilt لكارت الـ CTA الكبير مع الماوس
   const mouseX = useMotionValue(0);
@@ -470,12 +467,9 @@ export default function Footer() {
 
         {/* 5. الشريط السفلي (حقوق الملكية + زرار الصعود لأعلى) */}
         <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p
-            style={{ color: COLORS.cream }}
-            className="font-mono text-xs opacity-80"
-          >
-            © {currentYear} RAHMA.PSD — ALL RIGHTS RESERVED.
-          </p>
+      <p className="font-mono text-xs opacity-80">
+  © 2026 RAHMA.PSD — ALL RIGHTS RESERVED.
+</p>
 
           {/* زرار الصعود لأعلى الصفحة */}
           <motion.button
